@@ -1,0 +1,28 @@
+---
+description: "Todo API 项目开发规范"
+version: "1.0.0"
+---
+
+# 项目配置
+
+## 技术栈
+- **语言**: Python 3.x
+- **框架**: Flask 3.x
+- **数据库**: SQLite
+- **ORM**: Flask-SQLAlchemy
+
+## 代码规范
+- 所有函数必须有 docstring
+- 使用类型注解（type hints）
+- 遵循 PEP 8 风格
+- 错误处理使用 try-except
+
+## 模型配置
+- **推荐模型**: `qwen3.5-plus`
+- **理由**: 日常 CRUD 任务，性价比最高
+- **备选模型**: 如需复杂逻辑可升级到 `glm-5`
+
+## 输出要求
+- 代码目录：`/root/.openclaw/workspace/code/todo-api/`
+- 必须包含 README.md 和 requirements.txt
+- 所有 API 端点返回 JSON 格式

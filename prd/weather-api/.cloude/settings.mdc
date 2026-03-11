@@ -1,0 +1,25 @@
+---
+description: "天气查询 API 项目开发规范"
+version: "1.0.0"
+---
+
+# 项目配置
+
+## 技术栈
+- **语言**: Python 3.x
+- **框架**: Flask 3.x
+- **数据存储**: 内存字典（模拟数据）
+
+## 代码规范
+- 所有函数必须有 docstring
+- 使用类型注解（type hints）
+- 遵循 PEP 8 风格
+
+## 模型配置
+- **推荐模型**: `qwen3.5-plus`
+- **理由**: 日常 CRUD 任务，性价比最高
+- **任务类型**: 天气查询 API（中等复杂度）
+
+## 输出要求
+- 代码目录：`/root/.openclaw/workspace/code/weather-api/`
+- 必须包含：app.py, models.py, routes.py, mock_data.py, requirements.txt, README.md
