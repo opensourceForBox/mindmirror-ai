@@ -41,17 +41,20 @@ cd /root/.openclaw/workspace/skills/mission-control
 node sync-task-board.js
 ```
 
-### 4. 定时任务 (已配置✅)
+### 4. 定时任务 (已暂停⏸️)
 
+为节省 Token 消耗，定时任务已暂停。**改用 Manager 实时触发**。
+
+手动同步：
 ```bash
-# 已自动添加到 crontab，每 5 分钟同步一次
-crontab -l
-# 输出：*/5 * * * * /root/.openclaw/workspace/skills/mission-control/cron-sync.sh
-```
+cd /root/.openclaw/workspace/skills/mission-control
 
-脚本会自动执行：
-- `sync-task-board.js` - 同步任务看板
-- `monitor-agents.js` - 监控智能体状态
+# 同步任务看板
+node sync-task-board.js
+
+# 监控智能体状态
+node monitor-agents.js
+```
 
 日志文件：`cron.log`
 
@@ -171,9 +174,10 @@ await logNotification({
 - [x] 任务看板同步脚本 (sync-task-board.js) ✅ 已测试
 - [x] 智能体状态监控脚本 (monitor-agents.js) ✅ 已测试
 - [x] 通知日志记录脚本 (log-notification.js) ✅ 已测试
-- [x] 集成指南文档 (INTEGRATION.md)
-- [x] 定时任务配置 (crontab 每 5 分钟) ✅ 已配置
-- [ ] Manager 技能集成 (见 INTEGRATION.md)
+- [x] 集成指南文档 (INTEGRATION.md + MANAGER_EXAMPLES.md)
+- [x] Manager 集成模块 (manager-integration.js) ✅ 已完成
+- [x] 定时任务配置 (crontab) ⏸️ 已暂停 (节省 Token)
+- [ ] Manager SOUL.md 集成代码 (手动添加)
 - [ ] 告警规则引擎
 - [ ] 日报/周报生成
 
