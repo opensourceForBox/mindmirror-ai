@@ -67,7 +67,10 @@ mission-control/
 ├── README.md               # 本文件
 ├── SKILL.md                # 技能说明
 ├── ARCHITECTURE.md         # 系统架构文档
-├── INTEGRATION.md          # 集成指南
+├── INTEGRATION.md          # Manager 集成指南
+├── MANAGER_EXAMPLES.md     # Manager 集成示例
+├── task-templates.md       # 任务拆解标准模板 ✅
+├── manager-integration.js  # Manager 集成模块 ✅
 ├── sync-task-board.js      # 任务看板同步脚本 ✅
 ├── monitor-agents.js       # 智能体状态监控 ✅
 ├── log-notification.js     # 通知日志记录 ✅
@@ -176,8 +179,9 @@ await logNotification({
 - [x] 通知日志记录脚本 (log-notification.js) ✅ 已测试
 - [x] 集成指南文档 (INTEGRATION.md + MANAGER_EXAMPLES.md)
 - [x] Manager 集成模块 (manager-integration.js) ✅ 已完成
+- [x] 任务拆解标准模板 (task-templates.md) ✅ 已完成
+- [x] Manager SOUL.md 集成 (模板 + Mission Control) ✅ 已完成
 - [x] 定时任务配置 (crontab) ⏸️ 已暂停 (节省 Token)
-- [ ] Manager SOUL.md 集成代码 (手动添加)
 - [ ] 告警规则引擎
 - [ ] 日报/周报生成
 
