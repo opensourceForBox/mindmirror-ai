@@ -1,21 +1,30 @@
 # 🎮 Mission Control - 智能体任务控制中心
 
-> 实时监控和管理你的 AI 智能体团队
+> **Manager 协调模式** - 实时监控你的 AI 开发团队
+
+---
 
 ## 📋 概述
 
-基于 OpenClaw 智能体架构，构建一个类似 NASA 任务控制中心的可视化看板系统，用于：
+基于 OpenClaw Manager 协调模式，构建类似 NASA 任务控制中心的可视化看板系统。
 
-- 📊 **实时监控** - 查看各智能体状态、任务进度
-- 🔔 **通知聚合** - 追踪智能体间的协作消息
-- 📈 **数据统计** - Token 消耗、任务完成率等指标
-- ⚙️ **自动化** - 定时同步、文件监听、告警推送
+**核心功能**:
+- 📊 **实时监控** - 查看 Manager 和 Worker 状态、任务进度
+- 🔔 **通知聚合** - 追踪 Manager ↔ Worker ↔ User 的协作消息
+- 📈 **数据统计** - 任务完成率、智能体工作量分析
+- ⚙️ **自动化** - 定时同步 TASK_BOARD.md、自动记录通知
+
+---
 
 ## 🚀 快速开始
 
 ### 1. 访问看板
 
-🔗 **[Mission Control 主看板](https://feishu.cn/docx/AnChdwlgHoI216xoDKyccorInDq)**
+| 看板 | 用途 | 链接 |
+|------|------|------|
+| 🎮 主看板 | 智能体状态 + 任务概览 | [打开](https://feishu.cn/docx/GNZbdHwL6orkTNx1QRCczCljnnT) |
+| 📈 通知日志 | 通知消息时间线 | [打开](https://feishu.cn/docx/J0hadm7Qdoyj6UxdSghcmPEXnRc) |
+| 📊 统计看板 | 工作效率分析 | [打开](https://feishu.cn/docx/Afutd07NsoJ9poxtNhncO3Ndnvg) |
 
 ### 2. 数据表
 
@@ -38,56 +47,74 @@ node sync-task-board.js
 crontab -e
 # 每 5 分钟同步一次任务看板
 */5 * * * * cd /root/.openclaw/workspace/skills/mission-control && node sync-task-board.js
+
+# 每 10 分钟监控智能体状态
+*/10 * * * * cd /root/.openclaw/workspace/skills/mission-control && node monitor-agents.js
 ```
+
+---
 
 ## 📁 文件结构
 
 ```
 mission-control/
-├── README.md           # 本文件
-├── SKILL.md            # 技能说明
-├── ARCHITECTURE.md     # 系统架构文档
-├── update-status.sh    # 状态同步脚本
-└── (待添加)
-    ├── track-task.sh   # 任务追踪脚本
-    ├── log-notify.sh   # 通知记录脚本
-    └── alert.sh        # 告警脚本
+├── README.md               # 本文件
+├── SKILL.md                # 技能说明
+├── ARCHITECTURE.md         # 系统架构文档
+├── INTEGRATION.md          # 集成指南
+├── sync-task-board.js      # 任务看板同步脚本 ✅
+├── monitor-agents.js       # 智能体状态监控 ✅
+├── log-notification.js     # 通知日志记录 ✅
+├── sync-to-bitable.sh      # Bitable 同步脚本
+└── auto-sync.sh            # 自动同步脚本
 ```
 
-## 🎯 智能体工作流
+---
+
+## 🎯 Manager 协调模式工作流
 
 ```
-用户请求 → 产品经理 → UI 设计师 → 开发架构师 → 测试工程师 → 完成
-            ↓           ↓            ↓            ↓
-          prd/      designs/       code/      test-reports/
+用户 → Manager → sessions_spawn → Workers → 汇总 → 用户
+              ↓
+        复杂度判断
+              ↓
+    ┌─────────┴─────────┐
+    ↓                   ↓
+复杂项目            简单项目
+(PM+Dev+Test)        (Dev 直接)
 ```
 
 ### 智能体列表
 
-| 智能体 | 触发条件 | 输出目录 | 通知对象 |
-|--------|----------|----------|----------|
-| 产品经理 | 需求关键词 | prd/ | UI 设计师 |
-| UI 设计师 | prd/ 新文件 | designs/ | 开发架构师 |
-| 开发架构师 | designs/ 新文件 | code/ | 测试工程师 |
-| 测试工程师 | code/ 新文件 | test-reports/ | 飞书反馈 |
+| 智能体 | 触发方式 | 输出目录 |
+|--------|----------|----------|
+| Manager | on_message | iterations/[版本]/TASKS/ |
+| Product Manager | sessions_spawn | prd/[项目名]/ |
+| UI Designer | sessions_spawn | designs/[项目名]/ |
+| Developer | sessions_spawn | code/[项目名]/ |
+| Tester | sessions_spawn | test-reports/[项目名]/ |
+
+---
 
 ## 📊 看板功能
 
 ### 智能体状态面板
 - 🟢 在线 - 正在处理任务
 - 🟡 忙碌 - 队列中有任务
-- 🔵 空闲 - 等待新任务
+- 🔵 空闲 - 等待 Manager 派发
 - ⚪ 离线 - 未激活
 
 ### 任务流转追踪
-- 需求分析 → UI 设计 → 开发中 → 测试中 → ✅ 已完成
+- 需求分析 → 架构设计 → UI 设计 → 开发中 → 测试中 → ✅ 已完成
 - 实时进度条
 - 各阶段耗时统计
 
 ### 通知日志
 - 时间线视图
 - 发送者/接收者过滤
-- 通知类型分类
+- 通知类型分类（任务派发、任务完成、确认请求）
+
+---
 
 ## ⚙️ 配置
 
@@ -103,44 +130,59 @@ NOTIFY_LOG_APP="AMflbwg4YaGFWtsHtKEc55Venoc"
 
 从 `/root/.openclaw/.env` 读取 Feishu API 凭证。
 
-## 🔧 扩展开发
+---
 
-### 添加新智能体
+## 🔧 集成到 Manager 技能
 
-1. 在 `AGENTS.md` 中添加智能体配置
-2. 在智能体状态 Bitable 中添加记录
-3. 更新 `update-status.sh` 中的映射
+### 示例代码
 
-### 添加新指标
+```javascript
+// 在 Manager 更新 TASK_BOARD.md 后
+const { logNotification } = require('./mission-control/log-notification');
 
-1. 在对应 Bitable 表中创建新字段
-2. 更新监控脚本采集逻辑
-3. 在看板文档中添加展示
+// 派发任务时记录
+await logNotification({
+    from: 'Manager',
+    to: 'developer',
+    type: '任务派发',
+    content: '开始后端 API 开发'
+});
 
-### 集成告警
-
-```bash
-# 示例：智能体离线告警
-if [ "$status" == "离线" ]; then
-    openclaw message send --channel feishu --target "ou_xxx" "⚠️ $agent_name 离线告警"
-fi
+// 任务完成后记录
+await logNotification({
+    from: 'developer',
+    to: 'Manager',
+    type: '任务完成',
+    content: '后端 API 开发完成'
+});
 ```
 
-## 📝 待办事项
+详细集成指南见 [INTEGRATION.md](INTEGRATION.md)
 
-- [ ] 实现文件监听器 (inotify/fswatch)
-- [ ] 集成 sessions_list API 实时状态
-- [ ] 添加 Token 消耗统计
-- [ ] 实现告警规则引擎
-- [ ] 生成日报/周报
-- [ ] 添加图表可视化 (Bitable 仪表盘)
+---
+
+## 📝 完成状态
+
+- [x] Bitable 数据表创建 (3 个)
+- [x] 主看板文档创建
+- [x] 任务看板同步脚本 (sync-task-board.js)
+- [x] 智能体状态监控脚本 (monitor-agents.js)
+- [x] 通知日志记录脚本 (log-notification.js)
+- [x] 集成指南文档 (INTEGRATION.md)
+- [ ] 定时任务配置 (cron/systemd)
+- [ ] Manager 技能集成
+- [ ] 告警规则引擎
+- [ ] 日报/周报生成
+
+---
 
 ## 📚 相关文档
 
-- [系统架构](ARCHITECTURE.md)
 - [技能说明](SKILL.md)
+- [系统架构](ARCHITECTURE.md)
+- [集成指南](INTEGRATION.md)
 - [AGENTS.md](/root/.openclaw/workspace/AGENTS.md)
 
 ---
 
-*Mission Control v1.0 - Built for OpenClaw*
+*Mission Control v1.0 - Built for OpenClaw Manager 协调模式*
