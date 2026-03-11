@@ -1,299 +1,223 @@
-# Mission Control 集成指南
+# Manager 技能集成指南
 
-> 如何在 Manager 和其他智能体中集成 Mission Control 功能
+在 Manager 技能中嵌入 Mission Control 同步调用，实现**实时触发**。
 
----
+## 集成点
 
-## 📋 概述
-
-Mission Control 提供 3 个核心功能：
-
-1. **任务看板同步** - `sync-task-board.js`
-2. **智能体状态监控** - `monitor-agents.js`
-3. **通知日志记录** - `log-notification.js`
-
----
-
-## 🔧 在 Manager 中集成
-
-### 1. 任务派发时记录通知
+### 1. 更新 TASK_BOARD.md 后
 
 ```javascript
-// 在 manager 技能中，派发任务给 Worker 时
-async function dispatchTask(worker, taskDescription) {
-    // ... 创建 Worker 会话 ...
+// 在 manager 技能中，更新任务看板后添加：
+
+async function updateTaskBoard(content) {
+    // 1. 写入 TASK_BOARD.md
+    await writeFile('iterations/v1.0/TASK_BOARD.md', content);
     
-    // 记录通知日志
-    await logNotification({
-        from: 'Manager',
-        to: worker,
-        type: '任务派发',
-        content: `开始 ${taskDescription.name} 任务`
-    });
-    
-    // 同步任务看板
-    await syncTaskBoard();
+    // 2. 同步到 Bitable (实时触发)
+    await syncToMissionControl();
 }
 ```
 
-### 2. 收到 Worker 完成通知时
+### 2. 派发任务给 Worker 后
 
 ```javascript
-// 在 manager 技能中，收到 Worker 完成消息时
+// 在 sessions_spawn 创建 Worker 后：
+
+async function dispatchTask(worker, task) {
+    // 1. 创建 Worker 会话
+    await sessions_spawn({ task, agentId: worker });
+    
+    // 2. 记录通知日志
+    await logNotification('Manager', worker, '任务派发', task.name);
+    
+    // 3. 同步到 Bitable
+    await syncToMissionControl();
+}
+```
+
+### 3. 收到 Worker 完成通知后
+
+```javascript
+// 在收到 sessions_send 后：
+
 async function onWorkerComplete(worker, result) {
-    // 记录通知日志
-    await logNotification({
-        from: worker,
-        to: 'Manager',
-        type: '任务完成',
-        content: `${worker} 完成任务：${result.summary}`
-    });
+    // 1. 更新 TASK_BOARD.md 状态
+    await updateTaskStatus(worker, '已完成');
     
-    // 更新任务看板
-    await updateTaskStatus(result.taskId, '已完成', 100);
+    // 2. 记录通知日志
+    await logNotification(worker, 'Manager', '任务完成', result.summary);
     
-    // 同步到 Bitable
-    await syncTaskBoard();
+    // 3. 同步到 Bitable
+    await syncToMissionControl();
 }
 ```
 
-### 3. 请求用户确认时
+## 同步函数实现
+
+### 方式 A: 调用 Node.js 脚本
 
 ```javascript
-// 在 manager 技能中，请求用户确认时
-async function requestUserConfirmation(stage, details) {
-    // 记录通知日志
-    await logNotification({
-        from: 'Manager',
-        to: 'user',
-        type: '确认请求',
-        content: `${stage} 完成，${details}`
+const { exec } = require('child_process');
+const path = require('path');
+
+async function syncToMissionControl() {
+    return new Promise((resolve, reject) => {
+        const scriptPath = path.join(__dirname, '../mission-control/sync-task-board.js');
+        exec(`node ${scriptPath}`, (error, stdout, stderr) => {
+            if (error) {
+                console.error('同步失败:', error);
+                reject(error);
+            } else {
+                console.log('同步成功:', stdout);
+                resolve();
+            }
+        });
     });
 }
 ```
 
----
-
-## 📁 在 Worker 中集成
-
-### Developer 示例
+### 方式 B: 直接调用 Feishu API
 
 ```javascript
-// 在 developer 技能中，任务完成时
-async function completeTask() {
-    // ... 完成开发任务 ...
-    
-    // 通知 Manager
-    await sessions_send({
-        label: 'manager',
-        message: JSON.stringify({
-            type: 'task_complete',
-            worker: 'developer',
-            result: { ... }
-        })
+// 在 manager 技能中直接调用 feishu_bitable_create_record
+
+async function syncTaskToBitable(task) {
+    await feishu_bitable_create_record({
+        app_token: 'OVB0b4GASaVnZgsyW7vcffwMnBh',
+        table_id: 'tblGKdhzAwBBqYKE',
+        fields: {
+            '任务 ID': task.id,
+            '任务名称': task.name,
+            '负责人': task.worker,
+            '当前阶段': task.phase,
+            '进度%': task.progress
+        }
     });
-    
-    // 记录通知日志（可选，通常由 Manager 记录）
-    // await logNotification({ ... });
+}
+
+async function logNotificationToBitable(from, to, type, content) {
+    await feishu_bitable_create_record({
+        app_token: 'AMflbwg4YaGFWtsHtKEc55Venoc',
+        table_id: 'tbl53G1yPcIduAOB',
+        fields: {
+            '时间戳': Date.now(),
+            '发送者': from,
+            '接收者': to,
+            '通知类型': type,
+            '消息内容': content
+        }
+    });
 }
 ```
 
----
+## 完整示例
 
-## ⏰ 定时任务配置
+```javascript
+// manager 技能中的任务派发流程
 
-### crontab 配置
+async function dispatchTask(worker, task) {
+    console.log(`📤 派发任务给 ${worker}: ${task.name}`);
+    
+    try {
+        // 1. 创建 Worker 会话
+        const session = await sessions_spawn({
+            task: task.description,
+            agentId: worker,
+            mode: 'session'
+        });
+        
+        // 2. 更新 TASK_BOARD.md
+        const taskBoard = await readTaskBoard();
+        taskBoard.tasks.find(t => t.id === task.id).status = '🔄 进行中';
+        await writeTaskBoard(taskBoard);
+        
+        // 3. 同步到 Bitable (实时触发)
+        await feishu_bitable_update_record({
+            app_token: 'OVB0b4GASaVnZgsyW7vcffwMnBh',
+            table_id: 'tblGKdhzAwBBqYKE',
+            record_id: task.bitableId,
+            fields: {
+                '当前阶段': '开发中',
+                '进度%': 0
+            }
+        });
+        
+        // 4. 记录通知日志
+        await feishu_bitable_create_record({
+            app_token: 'AMflbwg4YaGFWtsHtKEc55Venoc',
+            table_id: 'tbl53G1yPcIduAOB',
+            fields: {
+                '时间戳': Date.now(),
+                '发送者': 'Manager',
+                '接收者': worker,
+                '通知类型': '任务派发',
+                '消息内容': `开始 ${task.name}`
+            }
+        });
+        
+        console.log(`✅ 任务派发完成，看板已同步`);
+        
+    } catch (error) {
+        console.error('❌ 任务派发失败:', error);
+        throw error;
+    }
+}
+```
+
+## 配置文件
+
+### crontab 配置（定时方案）
 
 ```bash
 # 编辑 crontab
 crontab -e
 
-# 每 5 分钟同步任务看板
-*/5 * * * * cd /root/.openclaw/workspace/skills/mission-control && node sync-task-board.js
-
-# 每 10 分钟监控智能体状态
-*/10 * * * * cd /root/.openclaw/workspace/skills/mission-control && node monitor-agents.js
+# 添加以下行（每 5 分钟同步一次）
+*/5 * * * * /root/.openclaw/workspace/skills/mission-control/cron-sync.sh
 ```
 
-### systemd timer (推荐)
+### 或者使用 systemd timer（更可靠）
 
 ```ini
-# /etc/systemd/system/mission-control-sync.timer
+# /etc/systemd/system/mission-control.service
 [Unit]
-Description=Mission Control Task Board Sync
+Description=Mission Control Sync
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/.openclaw/workspace/skills/mission-control
+ExecStart=/usr/bin/node sync-task-board.js
+```
+
+```ini
+# /etc/systemd/system/mission-control.timer
+[Unit]
+Description=Run Mission Control Sync every 5 minutes
+Requires=mission-control.service
 
 [Timer]
 OnBootSec=1min
 OnUnitActiveSec=5min
+Unit=mission-control.service
 
 [Install]
 WantedBy=timers.target
 ```
 
-```ini
-# /etc/systemd/system/mission-control-sync.service
-[Unit]
-Description=Mission Control Task Board Sync
-
-[Service]
-Type=oneshot
-WorkingDirectory=/root/.openclaw/workspace/skills/mission-control
-ExecStart=/usr/bin/node sync-task-board.js
+```bash
+# 启用定时器
+systemctl daemon-reload
+systemctl enable mission-control.timer
+systemctl start mission-control.timer
 ```
 
----
+## 推荐方案
 
-## 📊 Bitable API 调用示例
+**最佳实践**：Manager 集成 + crontab 备份
 
-### 创建任务记录
+1. **主要触发**: Manager 更新 TASK_BOARD.md 时实时同步
+2. **备份同步**: crontab 每 5 分钟检查一次，防止遗漏
 
-```javascript
-await feishu_bitable_create_record({
-    app_token: 'OVB0b4GASaVnZgsyW7vcffwMnBh',
-    table_id: 'tblGKdhzAwBBqYKE',
-    fields: {
-        '任务 ID': 'TASK-101',
-        '任务名称': '录像诊断功能 - 架构设计',
-        '负责人': 'product-manager',
-        '当前阶段': '已完成',
-        '进度%': 100
-    }
-});
-```
-
-### 更新任务状态
-
-```javascript
-await feishu_bitable_update_record({
-    app_token: 'OVB0b4GASaVnZgsyW7vcffwMnBh',
-    table_id: 'tblGKdhzAwBBqYKE',
-    record_id: 'recvdwcUCDMcdm',
-    fields: {
-        '当前阶段': '开发中',
-        '进度%': 50
-    }
-});
-```
-
-### 记录通知
-
-```javascript
-await feishu_bitable_create_record({
-    app_token: 'AMflbwg4YaGFWtsHtKEc55Venoc',
-    table_id: 'tbl53G1yPcIduAOB',
-    fields: {
-        '时间戳': Date.now(),
-        '发送者': 'Manager',
-        '接收者': 'developer',
-        '通知类型': '任务派发',
-        '消息内容': '开始后端 API 开发'
-    }
-});
-```
-
-### 更新智能体状态
-
-```javascript
-await feishu_bitable_update_record({
-    app_token: 'E8D2bR0Bca7QhssmTQwcNax2nCf',
-    table_id: 'tblG4SZePasROVWp',
-    record_id: 'recvdw3mIUnga1',
-    fields: {
-        '状态': '在线',
-        '当前任务': '处理录像诊断功能',
-        '最后活跃时间': Date.now()
-    }
-});
-```
-
----
-
-## 🎯 完整集成示例
-
-### Manager 技能中的完整流程
-
-```javascript
-const { logNotification } = require('./mission-control/log-notification');
-const { syncTaskBoard } = require('./mission-control/sync-task-board');
-
-async function handleUserRequest(request) {
-    // 1. 理解需求
-    const project = await analyzeRequest(request);
-    
-    // 2. 记录通知
-    await logNotification({
-        from: 'user',
-        to: 'Manager',
-        type: '新需求',
-        content: request
-    });
-    
-    // 3. 判断复杂度
-    const isComplex = await judgeComplexity(project);
-    
-    // 4. 创建迭代目录
-    const version = await createIteration(project);
-    
-    // 5. 派发任务给 PM (复杂项目)
-    if (isComplex) {
-        await logNotification({
-            from: 'Manager',
-            to: 'product-manager',
-            type: '任务派发',
-            content: `开始 ${project.name} 架构设计`
-        });
-        
-        const pmResult = await spawnWorker('product-manager', project);
-        
-        // 6. 记录 PM 完成
-        await logNotification({
-            from: 'product-manager',
-            to: 'Manager',
-            type: '任务完成',
-            content: '架构设计完成'
-        });
-        
-        // 7. 同步任务看板
-        await syncTaskBoard();
-        
-        // 8. 请求用户确认
-        await logNotification({
-            from: 'Manager',
-            to: 'user',
-            type: '确认请求',
-            content: '架构设计完成，请确认'
-        });
-    }
-    
-    // ... 继续后续流程
-}
-```
-
----
-
-## 📝 注意事项
-
-1. **性能优化**
-   - 批量更新 Bitable 记录，避免频繁 API 调用
-   - 使用增量同步，只更新变化的数据
-
-2. **错误处理**
-   - Bitable API 调用失败时重试
-   - 记录错误日志到 `memory/manager/MEMORY.md`
-
-3. **数据一致性**
-   - TASK_BOARD.md 是主数据源
-   - Bitable 是同步视图，定期校准
-
-4. **权限管理**
-   - 确保 Feishu app 有 Bitable 读写权限
-   - 敏感信息不记录到通知日志
-
----
-
-## 🔗 相关文档
-
-- [技能说明](SKILL.md)
-- [系统架构](ARCHITECTURE.md)
-- [README](README.md)
-- [AGENTS.md](/root/.openclaw/workspace/AGENTS.md)
+这样既保证实时性，又有容错机制。

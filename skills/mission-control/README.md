@@ -41,16 +41,19 @@ cd /root/.openclaw/workspace/skills/mission-control
 node sync-task-board.js
 ```
 
-### 4. 配置定时任务 (可选)
+### 4. 定时任务 (已配置✅)
 
 ```bash
-crontab -e
-# 每 5 分钟同步一次任务看板
-*/5 * * * * cd /root/.openclaw/workspace/skills/mission-control && node sync-task-board.js
-
-# 每 10 分钟监控智能体状态
-*/10 * * * * cd /root/.openclaw/workspace/skills/mission-control && node monitor-agents.js
+# 已自动添加到 crontab，每 5 分钟同步一次
+crontab -l
+# 输出：*/5 * * * * /root/.openclaw/workspace/skills/mission-control/cron-sync.sh
 ```
+
+脚本会自动执行：
+- `sync-task-board.js` - 同步任务看板
+- `monitor-agents.js` - 监控智能体状态
+
+日志文件：`cron.log`
 
 ---
 
@@ -165,12 +168,12 @@ await logNotification({
 
 - [x] Bitable 数据表创建 (3 个)
 - [x] 主看板文档创建
-- [x] 任务看板同步脚本 (sync-task-board.js)
-- [x] 智能体状态监控脚本 (monitor-agents.js)
-- [x] 通知日志记录脚本 (log-notification.js)
+- [x] 任务看板同步脚本 (sync-task-board.js) ✅ 已测试
+- [x] 智能体状态监控脚本 (monitor-agents.js) ✅ 已测试
+- [x] 通知日志记录脚本 (log-notification.js) ✅ 已测试
 - [x] 集成指南文档 (INTEGRATION.md)
-- [ ] 定时任务配置 (cron/systemd)
-- [ ] Manager 技能集成
+- [x] 定时任务配置 (crontab 每 5 分钟) ✅ 已配置
+- [ ] Manager 技能集成 (见 INTEGRATION.md)
 - [ ] 告警规则引擎
 - [ ] 日报/周报生成
 
