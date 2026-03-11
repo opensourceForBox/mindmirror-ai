@@ -11,6 +11,24 @@
 - ✅ 执行步骤明确
 - ✅ 输出格式具体
 - ✅ 验收标准可量化
+- ✅ 参考图/样例已指定（如需要）
+
+## 参考图使用
+
+### 方式 1：直接传入图片
+用户发送图片 → 保存到 `/root/.openclaw/media/inbound/` → 任务中指定路径
+
+### 方式 2：使用样例库
+预先保存样例到 `/root/.openclaw/workspace/references/ui-samples/` → 任务中指定样例名称
+
+### 任务中指定参考图
+
+```markdown
+## 参考样例
+- **参考图**: `/root/.openclaw/media/inbound/xxx.jpg`
+- **或**: `sample-video-loss`（样例库中的名称）
+- **要求**: 模仿参考图的配色和布局风格
+```
 
 ---
 
