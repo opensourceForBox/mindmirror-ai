@@ -1,0 +1,231 @@
+[
+  {
+    "title": "Claude Code、Cursor 可能都躲不过一次“大重写”，但 OpenCode 也许是例外",
+    "url": "https://www.infoq.cn/article/mpTLQz7Oj5lfLIoZiBhE",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "🔥 P0",
+    "tags": [
+      "AI",
+      "OpenClaw"
+    ],
+    "timestamp": "2026-03-24T09:00:03.537482"
+  },
+  {
+    "title": "Meta内部Agent失控升级：首个Sev 1级事故曝光，系统数据裸奔了两小时",
+    "url": "https://www.infoq.cn/article/IfVHPs1luTCi7om8XzgR",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "AI"
+    ],
+    "timestamp": "2026-03-24T09:00:03.537578"
+  },
+  {
+    "title": "极客部落“OPC 创业者招募计划”正式启动 —— 携手朝阳区赋能 AI 时代独角兽，助推人才高质量发展",
+    "url": "https://www.infoq.cn/article/LbxEy5EyhN3e4CW05IIw",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "AI"
+    ],
+    "timestamp": "2026-03-24T09:00:03.537661"
+  },
+  {
+    "title": "发 token 当工资？工程师不只拿现金和期权，开始按 token 分身价了",
+    "url": "https://www.infoq.cn/article/ChuKpAjxIo4oA3DwsdD3",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "普通",
+    "tags": [
+      "技术"
+    ],
+    "timestamp": "2026-03-24T09:00:03.537750"
+  },
+  {
+    "title": "神秘爆款模型被小米认领！雷军直言超过马斯克 xAI Grok，罗福莉透露MiMo-V2-Pro将开源",
+    "url": "https://www.infoq.cn/article/RrUxZpVIe44S0slaHvr5",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "AI",
+      "开源"
+    ],
+    "timestamp": "2026-03-24T09:00:03.537949"
+  },
+  {
+    "title": "从狂热到工程、组织实践，OpenClaw这阵风能刮多久？",
+    "url": "https://www.infoq.cn/article/Th0um55qt9mMORoZ7MD8",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "OpenClaw",
+      "实战"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538125"
+  },
+  {
+    "title": "“Claude Code 这条路线错了”！元老级 AI 大师 Jeremy Howard 开炮：马斯克和 Dario 根本不懂现代软件工程",
+    "url": "https://www.infoq.cn/article/f692INME7iXBtfzWMwq6",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "🔥 P0",
+    "tags": [
+      "AI",
+      "OpenClaw"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538211"
+  },
+  {
+    "title": "每天审200个PR、每月3000个Issue？智能体开始并行写代码，人类可能成最薄弱环节",
+    "url": "https://www.infoq.cn/article/zujYMf0JwMxe2wLv6gaa",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "AI"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538307"
+  },
+  {
+    "title": "AI 智能体 8 层架构：生产级系统构建指南",
+    "url": "https://xie.infoq.cn/article/12678390ea8efb705b7b4956a?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "🔥 P0",
+    "tags": [
+      "AI",
+      "架构",
+      "实战"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538381"
+  },
+  {
+    "title": "吃灰安卓机变身 OpenClaw 服务器 — 完整手册",
+    "url": "https://xie.infoq.cn/article/1a22550d8ad773d6ce22d26fb?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "OpenClaw"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538452"
+  },
+  {
+    "title": "立省499！我给你们找到了最傻瓜的OpenClaw安装方式。",
+    "url": "https://xie.infoq.cn/article/e8f1df671ff1aa4ba0288911a?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "OpenClaw"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538520"
+  },
+  {
+    "title": "所有用OpenClaw的朋友，我都劝你先装上这个能保命的Skill。",
+    "url": "https://xie.infoq.cn/article/53281cc7a2446e73bdd6c83a6?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "OpenClaw"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538595"
+  },
+  {
+    "title": "Bosch 集团首席 AI 科学家阎栋博士已确认出席QCon北京站，探讨AI大模型是否会吞噬软件世界",
+    "url": "https://www.infoq.cn/article/g29j1RVFBqGg1t4BQExV",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "⭐ P1",
+    "tags": [
+      "AI"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538665"
+  },
+  {
+    "title": "AICon 2026 上海站正式启动：OpenClaw 袭来，我们来谈点真的",
+    "url": "https://www.infoq.cn/article/C2WQHsZF6ruKr61USuSa",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "⭐ P1",
+    "tags": [
+      "AI",
+      "OpenClaw"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538734"
+  },
+  {
+    "title": "DoorDash 构建大模型对话模拟与评估闭环，实现客服机器人规模化测试",
+    "url": "https://www.infoq.cn/article/ZaJmZWklKB37egQrQzBk",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "AI"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538809"
+  },
+  {
+    "title": "Netflix发现了在现代CPU上扩展容器时的内核级瓶颈",
+    "url": "https://www.infoq.cn/article/ssaAohmSCrr8J2BcFgh2",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "普通",
+    "tags": [
+      "技术"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538903"
+  },
+  {
+    "title": "基于AI的机器人攻陷微软、DataDog和CNCF项目中的GitHub Actions工作流",
+    "url": "https://www.infoq.cn/article/qj2aLodCUPuLu83qkeVx",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "AI",
+      "开源"
+    ],
+    "timestamp": "2026-03-24T09:00:03.538995"
+  },
+  {
+    "title": "微软发布MCP C# SDK 1.0版本，全面支持最新的协议规范",
+    "url": "https://www.infoq.cn/article/ugASUiY5dmLERPkwoKVw",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "技术"
+    ],
+    "timestamp": "2026-03-24T09:00:03.539064"
+  },
+  {
+    "title": "Karpathy最新访谈：开源模型落后闭源模型6个月，是AI世界最健康的状态；“龙虾”的成功在于它有“人格”",
+    "url": "https://www.infoq.cn/article/fI0rYFpZJEU10AMgeikf",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "📌 P2",
+    "tags": [
+      "AI",
+      "开源"
+    ],
+    "timestamp": "2026-03-24T09:00:03.539133"
+  },
+  {
+    "title": "MCP Gateway：构建下一代 AI Agent 的“中枢网关”｜QCon北京",
+    "url": "https://www.infoq.cn/article/wwu9ccjyS00J9YMgKHI7",
+    "source": "InfoQ",
+    "type": "article",
+    "priority": "🔥 P0",
+    "tags": [
+      "AI"
+    ],
+    "timestamp": "2026-03-24T09:00:03.539200"
+  }
+]

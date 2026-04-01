@@ -1,0 +1,304 @@
+[
+  {
+    "title": "Claude Code、Cursor 可能都躲不过一次“大重写”，但 OpenCode 也许是例外",
+    "url": "https://www.infoq.cn/article/mpTLQz7Oj5lfLIoZiBhE",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:42:53.500303"
+  },
+  {
+    "title": "Meta内部Agent失控升级：首个Sev 1级事故曝光，系统数据裸奔了两小时",
+    "url": "https://www.infoq.cn/article/IfVHPs1luTCi7om8XzgR",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:42:53.500312"
+  },
+  {
+    "title": "极客部落“OPC 创业者招募计划”正式启动 —— 携手朝阳区赋能 AI 时代独角兽，助推人才高质量发展",
+    "url": "https://www.infoq.cn/article/LbxEy5EyhN3e4CW05IIw",
+    "source": "InfoQ",
+    "tags": [
+      "AI"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:42:53.500315"
+  },
+  {
+    "title": "发 token 当工资？工程师不只拿现金和期权，开始按 token 分身价了",
+    "url": "https://www.infoq.cn/article/ChuKpAjxIo4oA3DwsdD3",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:42:53.500317"
+  },
+  {
+    "title": "神秘爆款模型被小米认领！雷军直言超过马斯克 xAI Grok，罗福莉透露MiMo-V2-Pro将开源",
+    "url": "https://www.infoq.cn/article/RrUxZpVIe44S0slaHvr5",
+    "source": "InfoQ",
+    "tags": [
+      "AI"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:42:53.500319"
+  },
+  {
+    "title": "从狂热到工程、组织实践，OpenClaw这阵风能刮多久？",
+    "url": "https://www.infoq.cn/article/Th0um55qt9mMORoZ7MD8",
+    "source": "InfoQ",
+    "tags": [
+      "实战"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:42:53.500328"
+  },
+  {
+    "title": "“Claude Code 这条路线错了”！元老级 AI 大师 Jeremy Howard 开炮：马斯克和 Dario 根本不懂现代软件工程",
+    "url": "https://www.infoq.cn/article/f692INME7iXBtfzWMwq6",
+    "source": "InfoQ",
+    "tags": [
+      "AI"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:42:53.500330"
+  },
+  {
+    "title": "每天审200个PR、每月3000个Issue？智能体开始并行写代码，人类可能成最薄弱环节",
+    "url": "https://www.infoq.cn/article/zujYMf0JwMxe2wLv6gaa",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:42:53.500335"
+  },
+  {
+    "title": "AI 智能体 8 层架构：生产级系统构建指南",
+    "url": "https://xie.infoq.cn/article/12678390ea8efb705b7b4956a?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "tags": [
+      "AI",
+      "架构"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:42:53.500337"
+  },
+  {
+    "title": "吃灰安卓机变身 OpenClaw 服务器 — 完整手册",
+    "url": "https://xie.infoq.cn/article/1a22550d8ad773d6ce22d26fb?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:42:53.500339"
+  },
+  {
+    "title": "Skills 开发指南-结合示例详细讲解skills原理和使用方法",
+    "url": "https://xie.infoq.cn/article/7431f26188536a8c97e86575a?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:42:53.500341"
+  },
+  {
+    "title": "Claude悄悄更新了Skills生成器，这绝对是一次史诗级升级。",
+    "url": "https://xie.infoq.cn/article/382e87c28e199b69762bbc672?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:42:53.500343"
+  },
+  {
+    "title": "Netflix发现了在现代CPU上扩展容器时的内核级瓶颈",
+    "url": "https://www.infoq.cn/article/ssaAohmSCrr8J2BcFgh2",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:42:53.500345"
+  },
+  {
+    "title": "基于AI的机器人攻陷微软、DataDog和CNCF项目中的GitHub Actions工作流",
+    "url": "https://www.infoq.cn/article/qj2aLodCUPuLu83qkeVx",
+    "source": "InfoQ",
+    "tags": [
+      "AI"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:42:53.500347"
+  },
+  {
+    "title": "微软发布MCP C# SDK 1.0版本，全面支持最新的协议规范",
+    "url": "https://www.infoq.cn/article/ugASUiY5dmLERPkwoKVw",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:42:53.500349"
+  },
+  {
+    "title": "Claude Code、Cursor 可能都躲不过一次“大重写”，但 OpenCode 也许是例外",
+    "url": "https://www.infoq.cn/article/mpTLQz7Oj5lfLIoZiBhE",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:47:53.520517"
+  },
+  {
+    "title": "Meta内部Agent失控升级：首个Sev 1级事故曝光，系统数据裸奔了两小时",
+    "url": "https://www.infoq.cn/article/IfVHPs1luTCi7om8XzgR",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:47:53.520527"
+  },
+  {
+    "title": "极客部落“OPC 创业者招募计划”正式启动 —— 携手朝阳区赋能 AI 时代独角兽，助推人才高质量发展",
+    "url": "https://www.infoq.cn/article/LbxEy5EyhN3e4CW05IIw",
+    "source": "InfoQ",
+    "tags": [
+      "AI"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:47:53.520530"
+  },
+  {
+    "title": "发 token 当工资？工程师不只拿现金和期权，开始按 token 分身价了",
+    "url": "https://www.infoq.cn/article/ChuKpAjxIo4oA3DwsdD3",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:47:53.520532"
+  },
+  {
+    "title": "神秘爆款模型被小米认领！雷军直言超过马斯克 xAI Grok，罗福莉透露MiMo-V2-Pro将开源",
+    "url": "https://www.infoq.cn/article/RrUxZpVIe44S0slaHvr5",
+    "source": "InfoQ",
+    "tags": [
+      "AI"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:47:53.520534"
+  },
+  {
+    "title": "从狂热到工程、组织实践，OpenClaw这阵风能刮多久？",
+    "url": "https://www.infoq.cn/article/Th0um55qt9mMORoZ7MD8",
+    "source": "InfoQ",
+    "tags": [
+      "实战"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:47:53.520537"
+  },
+  {
+    "title": "“Claude Code 这条路线错了”！元老级 AI 大师 Jeremy Howard 开炮：马斯克和 Dario 根本不懂现代软件工程",
+    "url": "https://www.infoq.cn/article/f692INME7iXBtfzWMwq6",
+    "source": "InfoQ",
+    "tags": [
+      "AI"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:47:53.520539"
+  },
+  {
+    "title": "每天审200个PR、每月3000个Issue？智能体开始并行写代码，人类可能成最薄弱环节",
+    "url": "https://www.infoq.cn/article/zujYMf0JwMxe2wLv6gaa",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:47:53.520543"
+  },
+  {
+    "title": "AI 智能体 8 层架构：生产级系统构建指南",
+    "url": "https://xie.infoq.cn/article/12678390ea8efb705b7b4956a?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "tags": [
+      "AI",
+      "架构"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:47:53.520548"
+  },
+  {
+    "title": "吃灰安卓机变身 OpenClaw 服务器 — 完整手册",
+    "url": "https://xie.infoq.cn/article/1a22550d8ad773d6ce22d26fb?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:47:53.520550"
+  },
+  {
+    "title": "Skills 开发指南-结合示例详细讲解skills原理和使用方法",
+    "url": "https://xie.infoq.cn/article/7431f26188536a8c97e86575a?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:47:53.520553"
+  },
+  {
+    "title": "Claude悄悄更新了Skills生成器，这绝对是一次史诗级升级。",
+    "url": "https://xie.infoq.cn/article/382e87c28e199b69762bbc672?utm_source=home_write_related&amp;utm_medium=article",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:47:53.520555"
+  },
+  {
+    "title": "Netflix发现了在现代CPU上扩展容器时的内核级瓶颈",
+    "url": "https://www.infoq.cn/article/ssaAohmSCrr8J2BcFgh2",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:47:53.520557"
+  },
+  {
+    "title": "基于AI的机器人攻陷微软、DataDog和CNCF项目中的GitHub Actions工作流",
+    "url": "https://www.infoq.cn/article/qj2aLodCUPuLu83qkeVx",
+    "source": "InfoQ",
+    "tags": [
+      "AI"
+    ],
+    "is_important": true,
+    "timestamp": "2026-03-23T14:47:53.520559"
+  },
+  {
+    "title": "微软发布MCP C# SDK 1.0版本，全面支持最新的协议规范",
+    "url": "https://www.infoq.cn/article/ugASUiY5dmLERPkwoKVw",
+    "source": "InfoQ",
+    "tags": [
+      "技术"
+    ],
+    "is_important": false,
+    "timestamp": "2026-03-23T14:47:53.520562"
+  }
+]
