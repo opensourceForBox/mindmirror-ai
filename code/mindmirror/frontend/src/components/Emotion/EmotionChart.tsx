@@ -16,7 +16,7 @@ export default function EmotionChart({ trend, loading }: EmotionChartProps) {
     );
   }
 
-  if (!trend || trend.data_points.length === 0) {
+  if (!trend || !trend.data_points || trend.data_points.length === 0) {
     return (
       <div className="p-4 text-center">
         <p className="text-sm text-gray-400 dark:text-gray-500">

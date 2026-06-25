@@ -103,8 +103,28 @@ async def get_emotion_trend(session_id: str):
         session_id: 会话 ID
 
     Returns:
-        情绪历史记录
+        情绪趋势数据
     """
     manager = get_conversation_manager()
     trend = await manager.get_emotion_trend(session_id)
-    return {"session_id": session_id, "emotion_history": trend}
+    # 确保返回前端期望的格式
+    data_points = trend if isinstance(trend, list) else []
+    # 计算趋势方向
+    if len(data_points) >= 2:
+        recent = data_points[-3:] if len(data_points) >= 3 else data_points
+        avg_recent = sum(p.get('valence', 0) for p in recent) / len(recent)
+        if avg_recent > 0.2:
+            direction = 'improving'
+        elif avg_recent < -0.2:
+            direction = 'declining'
+        else:
+            direction = 'stable'
+    else:
+        direction = 'stable'
+    avg_valence = sum(p.get('valence', 0) for p in data_points) / max(len(data_points), 1)
+    return {
+        "session_id": session_id,
+        "data_points": data_points,
+        "average_valence": avg_valence,
+        "trend": direction,
+    }
