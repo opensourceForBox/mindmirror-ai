@@ -9,8 +9,8 @@
 from pathlib import Path
 from typing import List, Optional
 
-from langchain.embeddings.base import Embeddings
-from langchain.schema import Document
+from langchain_core.embeddings import Embeddings
+from langchain_core.documents import Document
 from qdrant_client import QdrantClient
 
 from src.knowledge.embeddings import get_embeddings

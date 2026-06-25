@@ -10,8 +10,8 @@ import re
 from collections import Counter
 from typing import Dict, List, Optional, Tuple
 
-from langchain.embeddings.base import Embeddings
-from langchain.schema import Document
+from langchain_core.embeddings import Embeddings
+from langchain_core.documents import Document
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as qdrant_models
 from qdrant_client.http.exceptions import UnexpectedResponse

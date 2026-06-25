@@ -9,7 +9,7 @@
 import os
 from typing import List, Optional
 
-from langchain.embeddings.base import Embeddings
+from langchain_core.embeddings import Embeddings
 
 from src.utils.config import ZHIPU_API_KEY
 from src.utils.logger import get_logger
