@@ -141,8 +141,13 @@ async def analyze_image(file: UploadFile = File(...)):
 )
 async def analyze_audio(file: UploadFile = File(...)):
     """分析上传音频文件的情绪"""
-    allowed_types = {"audio/wav", "audio/x-wav", "audio/wave", "audio/mpeg", "audio/mp3"}
-    if file.content_type and file.content_type not in allowed_types and not (file.filename and file.filename.endswith((".wav", ".mp3"))):
+    allowed_types = {
+        "audio/wav", "audio/x-wav", "audio/wave", "audio/mpeg", "audio/mp3",
+        "audio/webm", "audio/ogg", "audio/mp4",
+        "audio/webm;codecs=opus", "audio/ogg;codecs=opus",
+    }
+    allowed_ext = (".wav", ".mp3", ".webm", ".ogg", ".mp4", ".m4a")
+    if file.content_type and file.content_type not in allowed_types and not (file.filename and file.filename.endswith(allowed_ext)):
         raise HTTPException(status_code=400, detail=f"不支持的音频类型: {file.content_type}")
 
     tmp_path = None
@@ -152,7 +157,18 @@ async def analyze_audio(file: UploadFile = File(...)):
             raise HTTPException(status_code=400, detail="文件内容为空")
 
         # 写临时文件
-        suffix = ".wav" if not file.filename or file.filename.endswith(".wav") else ".mp3"
+        # 根据文件名推断后缀
+        fname = file.filename or "recording.wav"
+        if fname.endswith(".mp3"):
+            suffix = ".mp3"
+        elif fname.endswith(".webm"):
+            suffix = ".webm"
+        elif fname.endswith(".ogg"):
+            suffix = ".ogg"
+        elif fname.endswith(".mp4") or fname.endswith(".m4a"):
+            suffix = ".mp4"
+        else:
+            suffix = ".wav"
         with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
             tmp.write(contents)
             tmp_path = tmp.name

@@ -1,25 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useChat } from './hooks/useChat';
 import { useEmotion } from './hooks/useEmotion';
+import { useWebcam } from './hooks/useWebcam';
+import { useAudio } from './hooks/useAudio';
 import Header from './components/Layout/Header';
 import Sidebar from './components/Layout/Sidebar';
 import ChatWindow from './components/Chat/ChatWindow';
 import InputArea from './components/Chat/InputArea';
 import QuickAssessment from './components/Assessment/QuickAssessment';
+import type { EmotionData } from './types';
 
-const SESSION_ID = uuidv4();
+const USER_ID = uuidv4();
 
 export default function App() {
-  const { messages, sendMessage, isLoading, currentEmotion, currentExpression, riskLevel } =
-    useChat(SESSION_ID);
-  const { trend: emotionTrend, loading: emotionLoading } = useEmotion(SESSION_ID);
+  const { messages, sendMessage, isLoading, currentEmotion: chatEmotion, currentExpression, riskLevel: chatRisk } =
+    useChat(USER_ID);
+  const { trend: emotionTrend, loading: emotionLoading } = useEmotion(USER_ID);
+
+  // 摄像头 hook
+  const { videoRef, isActive: cameraActive, connecting: cameraConnecting, emotion: videoEmotion, toggleCamera, error: cameraError } =
+    useWebcam(USER_ID);
+
+  // 麦克风 hook
+  const { isActive: micActive, emotion: audioEmotion, toggleRecording, error: micError } =
+    useAudio();
+
   const [showAssessment, setShowAssessment] = useState(false);
+
+  // 合并情绪：视频/音频情绪优先（实时更新），否则用聊天情绪
+  // 使用 ref 跟踪最新更新时间来实现"最新优先"策略
+  const [displayEmotion, setDisplayEmotion] = useState<EmotionData | null>(null);
+  const lastVideoTs = useRef(0);
+  const lastAudioTs = useRef(0);
+
+  useEffect(() => {
+    if (videoEmotion) {
+      lastVideoTs.current = Date.now();
+      setDisplayEmotion(videoEmotion);
+    }
+  }, [videoEmotion]);
+
+  useEffect(() => {
+    if (audioEmotion) {
+      lastAudioTs.current = Date.now();
+      setDisplayEmotion(audioEmotion);
+    }
+  }, [audioEmotion]);
+
+  // 当视频/音频情绪不再活跃时，回退到聊天情绪
+  useEffect(() => {
+    if (!cameraActive && !micActive) {
+      // 延迟恢复，避免频繁切换
+      const timer = setTimeout(() => {
+        setDisplayEmotion(chatEmotion);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [cameraActive, micActive, chatEmotion]);
+
+  // 摄像头/麦克风开启时，聊天情绪不覆盖实时情绪
+  useEffect(() => {
+    if (!cameraActive && !micActive && chatEmotion) {
+      setDisplayEmotion(chatEmotion);
+    }
+  }, [chatEmotion, cameraActive, micActive]);
+
+  const currentEmotion = displayEmotion ?? chatEmotion;
+  const riskLevel = currentEmotion?.risk_level ?? chatRisk;
 
   const handleAssessmentComplete = (results: { score: number; answers: Record<string, number> }) => {
     console.log('Assessment results:', results);
     setShowAssessment(false);
-    // 可在此处将评估结果发送给后端
     if (results.score <= 4) {
       sendMessage('我刚做了一个快速评估，感觉最近状态不太好...');
     } else {
@@ -55,8 +107,14 @@ export default function App() {
           <InputArea
             onSend={sendMessage}
             isLoading={isLoading}
-            onMicClick={() => console.log('Mic clicked - 预留语音输入')}
-            onCameraClick={() => console.log('Camera clicked - 预留视频分析')}
+            onCameraClick={toggleCamera}
+            onMicClick={toggleRecording}
+            isCameraActive={cameraActive}
+            isCameraConnecting={cameraConnecting}
+            isMicActive={micActive}
+            videoRef={videoRef}
+            cameraError={cameraError}
+            micError={micError}
           />
         </div>
       </div>
