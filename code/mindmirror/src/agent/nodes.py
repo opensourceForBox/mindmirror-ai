@@ -12,7 +12,7 @@ import re
 from pathlib import Path
 from typing import Literal
 
-from src.agent.llm import MindMirrorLLM
+from src.agent.llm import MindMirrorLLM, get_llm
 from src.utils.config import PROJECT_ROOT
 from src.utils.logger import get_logger
 
@@ -69,7 +69,7 @@ def _get_llm() -> MindMirrorLLM:
     """获取全局 LLM 实例（延迟初始化）"""
     global _llm
     if _llm is None:
-        _llm = MindMirrorLLM()
+        _llm = get_llm()
     return _llm
 
 

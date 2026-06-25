@@ -9,53 +9,44 @@
 """
 from typing import Optional
 
-from src.utils.config import ZHIPU_API_KEY
+from src.utils.config import (
+    LLM_PROVIDER,
+    DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL, DEEPSEEK_MODEL,
+    ZHIPU_API_KEY, ZHIPU_BASE_URL, ZHIPU_MODEL
+)
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 
-def _get_llm():
-    """创建 CrewAI 兼容的 LLM 实例
+def _get_crew_llm():
+    """获取 CrewAI 使用的 LLM 实例"""
+    from langchain_openai import ChatOpenAI
 
-    使用 LangChain 的 ChatOpenAI 配合智谱 AI 的 OpenAI 兼容端点。
-    当 API Key 缺失时返回 None，Agent 将处于不可用状态。
+    if LLM_PROVIDER == "deepseek":
+        api_key = DEEPSEEK_API_KEY
+        base_url = DEEPSEEK_BASE_URL
+        model = DEEPSEEK_MODEL
+    else:
+        api_key = ZHIPU_API_KEY
+        base_url = f"{ZHIPU_BASE_URL}"
+        model = ZHIPU_MODEL
 
-    Returns:
-        ChatOpenAI 实例或 None
-    """
-    if not ZHIPU_API_KEY:
-        logger.warning("ZHIPU_API_KEY 未配置，CrewAI Agent 将不可用")
+    if not api_key:
+        logger.warning(f"LLM API Key 未配置 (provider={LLM_PROVIDER})，CrewAI Agent 将不可用")
         return None
 
     try:
-        from langchain_openai import ChatOpenAI
-
         llm = ChatOpenAI(
-            model="glm-4",
-            openai_api_key=ZHIPU_API_KEY,
-            openai_api_base="https://open.bigmodel.cn/api/paas/v4/",
+            api_key=api_key,
+            base_url=base_url,
+            model=model,
             temperature=0.7,
         )
-        logger.info("CrewAI LLM 初始化成功 (glm-4)")
+        logger.info(f"CrewAI LLM 初始化成功: provider={LLM_PROVIDER}, model={model}")
         return llm
-    except ImportError:
-        logger.warning("langchain_openai 未安装，尝试使用 langchain_community")
-        try:
-            from langchain_community.chat_models import ChatOpenAI
-
-            llm = ChatOpenAI(
-                model="glm-4",
-                openai_api_key=ZHIPU_API_KEY,
-                openai_api_base="https://open.bigmodel.cn/api/paas/v4/",
-                temperature=0.7,
-            )
-            return llm
-        except Exception as e:
-            logger.error("LLM 初始化失败: %s", e)
-            return None
     except Exception as e:
-        logger.error("LLM 初始化失败: %s", e)
+        logger.error(f"CrewAI LLM 初始化失败: {e}")
         return None
 
 
@@ -71,7 +62,7 @@ def create_psychology_agents(llm=None) -> dict:
     from crewai import Agent
 
     if llm is None:
-        llm = _get_llm()
+        llm = _get_crew_llm()
 
     # 当 LLM 不可用时的降级处理：仍然创建 Agent 但不绑定 llm
     agent_kwargs = {}

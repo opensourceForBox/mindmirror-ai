@@ -8,8 +8,18 @@ load_dotenv()
 # 项目根目录
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 
-# API Keys
+# LLM 配置（支持 deepseek / glm-4 切换）
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "deepseek")  # deepseek 或 zhipu
+
+# DeepSeek
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "")
+DEEPSEEK_BASE_URL = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
+DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
+
+# Zhipu GLM-4 (保留)
 ZHIPU_API_KEY = os.getenv("ZHIPU_API_KEY", "")
+ZHIPU_BASE_URL = os.getenv("ZHIPU_BASE_URL", "https://open.bigmodel.cn/api/paas/v4")
+ZHIPU_MODEL = os.getenv("ZHIPU_MODEL", "glm-4")
 
 # Qdrant
 QDRANT_HOST = os.getenv("QDRANT_HOST", "localhost")
