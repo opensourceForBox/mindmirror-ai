@@ -1,0 +1,39 @@
+# MindMirror AI 应用配置
+
+app:
+  name: "MindMirror AI"
+  version: "0.1.0"
+  debug: false
+
+llm:
+  provider: "zhipu"
+  model: "glm-4"
+  temperature: 0.7
+  max_tokens: 2048
+
+emotion:
+  video:
+    enabled: true
+    model: "deepface"
+    confidence_threshold: 0.6
+  audio:
+    enabled: true
+    model: "opensmile"
+    feature_set: "eGeMAPSv02"
+  fusion:
+    method: "weighted_average"
+    video_weight: 0.6
+    audio_weight: 0.4
+
+knowledge:
+  vector_store: "qdrant"
+  collection_name: "mindmirror_kb"
+  embedding_model: "zhipu"
+  chunk_size: 500
+  chunk_overlap: 50
+  top_k: 5
+
+safety:
+  crisis_detection: true
+  max_risk_level: "medium"
+  crisis_hotline: "400-161-9995"
