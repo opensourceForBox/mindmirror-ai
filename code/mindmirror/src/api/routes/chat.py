@@ -5,10 +5,12 @@
 """
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from src.agent.manager import get_conversation_manager
+from src.models.user import User
+from src.utils.auth import get_current_user
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -39,14 +41,19 @@ class ChatResponse(BaseModel):
 
 
 @router.post("/message", response_model=ChatResponse)
-async def send_message(request: ChatRequest):
+async def send_message(
+    request: ChatRequest,
+    current_user: Optional[User] = Depends(get_current_user),
+):
     """发送消息并获取 AI 回复
 
     完整的对话流程：情绪感知 → 危机检查 → 知识检索 → 回复生成。
     如果检测到危机信号，会自动触发危机干预流程。
+    如果用户已登录，会注入心理档案上下文进行个性化回复。
 
     Args:
         request: ChatRequest 包含 session_id、message 和可选的 emotion_data
+        current_user: 可选的认证用户（登录后用于心理档案个性化）
 
     Returns:
         ChatResponse 包含 AI 回复、情绪状态、风险等级等
@@ -61,6 +68,7 @@ async def send_message(request: ChatRequest):
         session_id=request.session_id,
         user_message=request.message,
         emotion_data=request.emotion_data,
+        user_id=current_user.id if current_user else None,
     )
 
     # 如果有危机信号，记录告警

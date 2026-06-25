@@ -36,6 +36,7 @@ class ConversationManager:
         session_id: str,
         user_message: str,
         emotion_data: Optional[dict] = None,
+        user_id: Optional[int] = None,
     ) -> dict:
         """处理一次对话
 
@@ -45,6 +46,7 @@ class ConversationManager:
             session_id: 会话 ID（用于 LangGraph 的 thread_id）
             user_message: 用户消息文本
             emotion_data: 可选的外部情绪数据（来自视频/音频分析）
+            user_id: 可选的登录用户 ID（用于心理档案个性化）
 
         Returns:
             {
@@ -65,6 +67,7 @@ class ConversationManager:
             "risk_level": "low",
             "crisis_signals": [],
             "session_id": session_id,
+            "user_id": user_id,
             "turn_count": 0,
             "needs_human_intervention": False,
             "response": "",

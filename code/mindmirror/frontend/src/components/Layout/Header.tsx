@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {
   onAssessmentClick?: () => void;
@@ -42,6 +43,16 @@ export default function Header({ onAssessmentClick }: HeaderProps) {
             快速评估
           </button>
         )}
+
+        <Link
+          to="/assessment"
+          className="px-3 py-1.5 rounded-xl text-sm font-medium
+            bg-warm-50 dark:bg-warm-900/20 text-amber-600 dark:text-amber-400
+            hover:bg-warm-100 dark:hover:bg-warm-900/30
+            transition-colors duration-200"
+        >
+          测评中心
+        </Link>
 
         {/* 健康指示灯 */}
         <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-green-50 dark:bg-green-900/20">

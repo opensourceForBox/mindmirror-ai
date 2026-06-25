@@ -1,4 +1,5 @@
 import { API_BASE } from '../utils/constants';
+import { getToken } from './authService';
 import type { ChatRequest, ChatResponse, ChatHistory, EmotionTrend, EmotionData, RiskLevel } from '../types';
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
@@ -104,4 +105,62 @@ export const videoApi = {
 export const healthApi = {
   check: () =>
     request<{ status: string }>('/health'),
+};
+
+// ─── 带认证的请求工具 ────────────────────────────────────────────────────────────
+async function authRequest<T>(url: string, options?: RequestInit): Promise<T> {
+  const token = getToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const res = await fetch(`${API_BASE}${url}`, { ...options, headers });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error((body as Record<string, string>).detail ?? `请求失败 (${res.status})`);
+  }
+  return res.json() as Promise<T>;
+}
+
+// ─── 话题与签到 API ──────────────────────────────────────────────────────────────
+export interface TopicRecommendation {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  prompt: string;
+}
+
+export interface CheckinResponse {
+  message: string;
+  streak_days: number;
+  mood_score: number;
+  date: string;
+}
+
+export interface CheckinHistoryItem {
+  date: string;
+  mood_score: number;
+  mood_note: string | null;
+}
+
+export interface TodayCheckinStatus {
+  checked_in: boolean;
+  mood_score: number | null;
+  streak_days: number;
+}
+
+export const topicsApi = {
+  getRecommendations: () =>
+    authRequest<TopicRecommendation[]>('/topics/recommendations'),
+
+  checkin: (mood_score: number, mood_note?: string) =>
+    authRequest<CheckinResponse>('/topics/checkin', {
+      method: 'POST',
+      body: JSON.stringify({ mood_score, mood_note: mood_note || null }),
+    }),
+
+  getHistory: () =>
+    authRequest<CheckinHistoryItem[]>('/topics/checkin/history'),
+
+  getTodayStatus: () =>
+    authRequest<TodayCheckinStatus>('/topics/checkin/today'),
 };

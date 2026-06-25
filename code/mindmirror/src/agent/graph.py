@@ -45,6 +45,7 @@ class ConversationState(TypedDict):
 
     # 对话元数据
     session_id: str
+    user_id: Optional[int]             # 登录用户 ID（None 表示未登录）
     turn_count: int
     needs_human_intervention: bool       # 是否需要人工干预
 
