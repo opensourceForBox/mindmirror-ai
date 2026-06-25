@@ -35,7 +35,7 @@ export interface ChatRequest {
 
 // 聊天响应
 export interface ChatResponse {
-  reply: string;
+    response: string;
   emotion?: EmotionData;
   suggested_expression?: Expression;
   session_id: string;

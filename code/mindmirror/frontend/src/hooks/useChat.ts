@@ -49,7 +49,7 @@ export function useChat(sessionId: string): UseChatReturn {
       const aiMsg: Message = {
         id: uuidv4(),
         role: 'assistant',
-        content: response.reply,
+        content: response.response,
         timestamp: new Date().toISOString(),
         emotion: response.emotion,
       };
